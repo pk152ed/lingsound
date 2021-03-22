@@ -1,0 +1,143 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="styling.css" />
+    <title>Document</title>
+    <style></style>
+  </head>
+  <body>
+    <script>
+      const aLong = new Audio("sounds/a long.wav");
+      const eLong = new Audio("sounds/e long.wav");
+      const mLong = new Audio("sounds/m long.wav");
+      const uLong = new Audio("sounds/u long.wav");
+      const shLong = new Audio("sounds/sh long.wav");
+      const sLong = new Audio("sounds/s long.wav");
+      let soundsLong = ["aLong", "eLong", "mLong", "uLong", "shLong", "sLong"];
+      let info = {
+        generatedSound: "",
+        arrayIndex: 0,
+        correct: 0,
+        incorrect: 0,
+      };
+      function resetColors() {
+        const buttons = document.getElementsByClassName("answerButton");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].style.backgroundColor = "#8BBB8B";
+        }
+      }
+      function playSound(soundsArray) {
+        resetColors();
+        info.arrayIndex = Math.floor(Math.random() * soundsArray.length);
+        info.generatedSound = eval(soundsArray[info.arrayIndex]);
+        info.generatedSound.play();
+      }
+      function reloadAnswerPoints() {
+        document.getElementById("answerNumber").innerHTML = info.correct;
+        document.getElementById("answerIncorrect").innerHTML = info.incorrect;
+      }
+      function answer(sound, buttonId) {
+        if (sound == info.generatedSound) {
+          buttonId.style.backgroundColor = "green";
+          info.correct++;
+          reloadAnswerPoints();
+          soundsLong.splice(info.arrayIndex, 1);
+        } else {
+          buttonId.style.backgroundColor = "red";
+          info.incorrect++;
+          reloadAnswerPoints();
+        }
+        if (soundsLong.length == 0) {
+          document.getElementById("results").style.display = "flex";
+          reloadAnswerPoints();
+          info.correct = 0;
+          info.incorrect = 0;
+
+          soundsLong = ["aLong", "eLong", "mLong", "uLong", "shLong", "sLong"];
+        }
+      }
+      function reset() {
+        const buttons = document.getElementsByClassName("answerButton");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].style.backgroundColor = "#8BBB8B";
+        }
+        document.getElementById("results").style.display = "none";
+      }
+    </script>
+    <div id="results" style="display: none">
+      <table id="answerStats">
+        <tr>
+          <td>Correct answers</td>
+          <td id="answerNumber">0</td>
+        </tr>
+        <tr>
+          <td>Incorrect answers</td>
+          <td id="answerIncorrect">0</td>
+        </tr>
+      </table>
+      <div class="buttonholder">
+        <button onclick="reset()" id="playbutton">Reset</button>
+      </div>
+    </div>
+    <div id="holder">
+      <header>
+        <nav>
+          <a href="index.html">Short words</a>
+          <a href="long words.html" style="text-decoration: underline"
+            >Long words</a
+          >
+        </nav>
+      </header>
+
+      <div id="detection">
+        <button
+          onclick="answer(aLong, buttonAh)"
+          id="buttonAh"
+          class="answerButton"
+        >
+          <img src="pictures/plane.png" alt="a" />
+        </button>
+        <button
+          onclick="answer(eLong, buttonEe)"
+          id="buttonEe"
+          class="answerButton"
+        >
+          <img src="pictures/mouse.png" alt="e" />
+        </button>
+        <button
+          onclick="answer(mLong, buttonMm)"
+          id="buttonMm"
+          class="answerButton"
+        >
+          <img src="pictures/cake.png" alt="m" />
+        </button>
+        <button
+          onclick="answer(uLong, buttonOo)"
+          id="buttonOo"
+          class="answerButton"
+        >
+          <img src="pictures/owl.png" alt="u" />
+        </button>
+        <button
+          onclick="answer(shLong, buttonSh)"
+          id="buttonSh"
+          class="answerButton"
+        >
+          <img src="pictures/train.png" alt="sh" />
+        </button>
+        <button
+          onclick="answer(sLong, buttonSs)"
+          id="buttonSs"
+          class="answerButton"
+        >
+          <img src="pictures/snake.png" alt="s" />
+        </button>
+      </div>
+      <div class="buttonholder">
+        <button onclick="playSound(soundsLong)" id="playbutton">Play</button>
+      </div>
+      <footer></footer>
+    </div>
+  </body>
+</html>
